@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Bouncer.UserSwitcher.Spinner.Item">
+        <item name="android:textSize">@dimen/bouncer_user_switcher_item_text_size</item>
+        <item name="android:textColor">@color/bouncer_user_switcher_item_text</item>
+    </style>
+    <style name="EditTextActivity">
+        <item name="android:textColorSecondary">?android:attr/textColorPrimaryInverse</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:navigationBarColor">?unknown_attr_ref: 10104e2</item>
+        <item name="?0x10104e0">false</item>
+        <item name="?0x101056c">false</item>
+    </style>
+    <style name="EditTextActivityButton">
+        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
+    </style>
+    <style name="FloatingOverlay">
+        <item name="overlayButtonTextColor">?android:attr/textColorPrimaryInverse</item>
+    </style>
+    <style name="InternetDialog.Divider.Active">
+        <item name="android:background">?android:attr/textColorSecondaryInverse</item>
+    </style>
+    <style name="LongScreenshotActivity">
+        <item name="android:textColorSecondary">?android:attr/textColorPrimaryInverse</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:navigationBarColor">?unknown_attr_ref: 10104e2</item>
+        <item name="?0x10104e0">false</item>
+        <item name="?0x101056c">false</item>
+    </style>
+    <style name="SudDynamicColorTheme.DayNight">
+    </style>
+    <style name="SudDynamicColorThemeGlifV3.DayNight">
+    </style>
+    <style name="SudFullDynamicColorTheme.DayNight">
+    </style>
+    <style name="SudFullDynamicColorThemeGlifV3.DayNight">
+    </style>
+    <style name="SudThemeGlif.DayNight">
+    </style>
+    <style name="SudThemeGlifV2.DayNight">
+    </style>
+    <style name="SudThemeGlifV3.DayNight">
+    </style>
+    <style name="SudThemeGlifV4.DayNight">
+    </style>
+    <style name="SudThemeMaterial.DayNight">
+    </style>
+    <style name="TextAppearance.InternetDialog.Active">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
+        <item name="android:fontFamily">@android:string/permlab_asec_access</item>
+        <item name="android:textDirection">locale</item>
+    </style>
+    <style name="TextAppearance.InternetDialog.Secondary.Active">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">?android:attr/textColorSecondaryInverse</item>
+    </style>
+    <style name="TextAppearance.QS.Status">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:fontFamily">@android:string/permlab_changeComponentState</item>
+    </style>
+    <style name="Theme.AppCompat.DayNight">
+    </style>
+    <style name="Theme.AppCompat.DayNight.DarkActionBar">
+    </style>
+    <style name="Theme.AppCompat.DayNight.Dialog">
+    </style>
+    <style name="Theme.AppCompat.DayNight.Dialog.Alert">
+    </style>
+    <style name="Theme.AppCompat.DayNight.Dialog.MinWidth">
+    </style>
+    <style name="Theme.AppCompat.DayNight.DialogWhenLarge">
+    </style>
+    <style name="Theme.AppCompat.DayNight.NoActionBar">
+    </style>
+    <style name="Theme.CollapsingToolbar.Settings">
+        <item name="colorAccent">@color/settingslib_accent_device_default_dark</item>
+        <item name="colorPrimary">@color/settingslib_primary_dark_device_default_settings</item>
+        <item name="elevationOverlayColor">?attr/colorPrimary</item>
+        <item name="elevationOverlayEnabled">true</item>
+    </style>
+    <style name="Theme.Material3.DayNight">
+    </style>
+    <style name="Theme.Material3.DayNight.BottomSheetDialog">
+    </style>
+    <style name="Theme.Material3.DayNight.Dialog">
+    </style>
+    <style name="Theme.Material3.DayNight.Dialog.Alert">
+    </style>
+    <style name="Theme.Material3.DayNight.Dialog.MinWidth">
+    </style>
+    <style name="Theme.Material3.DayNight.DialogWhenLarge">
+    </style>
+    <style name="Theme.Material3.DayNight.NoActionBar">
+    </style>
+    <style name="Theme.Material3.DynamicColors.DayNight">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.BottomSheetDialog">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.Bridge">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.DarkActionBar">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.DarkActionBar.Bridge">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.Dialog">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.Dialog.Alert">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.Dialog.Alert.Bridge">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.Dialog.Bridge">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.Dialog.FixedSize">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.Dialog.FixedSize.Bridge">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.Dialog.MinWidth">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.Dialog.MinWidth.Bridge">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.DialogWhenLarge">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.NoActionBar">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+    </style>
+    <style name="Theme.PeopleTileConfigActivity">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="?0x10104e0">false</item>
+    </style>
+    <style name="Theme.SystemUI.DayNightDialog">
+    </style>
+    <style name="Theme.SystemUI.Dialog.Alert">
+    </style>
+    <style name="Theme.SystemUI.Dialog.GlobalActions">
+        <item name="android:windowIsFloating">true</item>
+    </style>
+    <style name="ThemeOverlay.AppCompat.DayNight">
+    </style>
+    <style name="ThemeOverlay.Material3.DynamicColors.DayNight">
+    </style>
+    <style name="Widget.MaterialComponents.ActionBar.PrimarySurface">
+    </style>
+    <style name="Widget.MaterialComponents.AppBarLayout.PrimarySurface">
+    </style>
+    <style name="Widget.MaterialComponents.BottomAppBar.PrimarySurface">
+    </style>
+    <style name="Widget.MaterialComponents.BottomNavigationView.PrimarySurface">
+    </style>
+    <style name="Widget.MaterialComponents.NavigationRailView.PrimarySurface">
+    </style>
+    <style name="Widget.MaterialComponents.TabLayout.PrimarySurface">
+    </style>
+    <style name="Widget.MaterialComponents.Toolbar.PrimarySurface">
+    </style>
+</resources>

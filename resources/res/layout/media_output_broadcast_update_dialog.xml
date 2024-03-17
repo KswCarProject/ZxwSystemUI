@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:androidprv="http://schemas.android.com/apk/prv/res/android" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:paddingLeft="?android:attr/dialogPreferredPadding" android:paddingRight="?android:attr/dialogPreferredPadding" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <EditText android:id="@+id/broadcast_edit_text" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="48dp" android:textAlignment="viewStart"/>
+    <TextView android:id="@+id/broadcast_error_message" android:visibility="invisible" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp" style="@style/TextAppearance.ErrorText"/>
+</LinearLayout>

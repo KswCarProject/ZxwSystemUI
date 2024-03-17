@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.android.systemui.statusbar.phone.PhoneStatusBarView xmlns:androidprv="http://schemas.android.com/apk/prv/res/android" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:systemui="http://schemas.android.com/apk/res/com.android.systemui" xmlns:aapt="http://schemas.android.com/aapt" android:orientation="vertical" android:id="@+id/status_bar" android:focusable="false" android:descendantFocusability="afterDescendants" android:layout_width="match_parent" android:layout_height="@dimen/status_bar_height" android:accessibilityPaneTitle="@string/status_bar">
+    <ImageView android:id="@+id/notification_lights_out" android:paddingBottom="2dp" android:visibility="gone" android:layout_width="@dimen/status_bar_icon_size" android:layout_height="match_parent" android:src="@drawable/ic_sysbar_lights_out_dot_small" android:scaleType="center" android:paddingStart="@dimen/status_bar_padding_start"/>
+    <LinearLayout android:orientation="horizontal" android:id="@+id/status_bar_contents" android:paddingTop="0dp" android:layout_width="match_parent" android:layout_height="match_parent" android:paddingStart="@dimen/status_bar_padding_start" android:paddingEnd="0dp">
+        <FrameLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1">
+            <include layout="@layout/heads_up_status_bar_layout"/>
+            <LinearLayout android:id="@+id/status_bar_left_side" android:clipChildren="false" android:layout_width="match_parent" android:layout_height="match_parent">
+                <ViewStub android:id="@+id/operator_name" android:visibility="gone" android:layout="@layout/operator_name" android:layout_width="wrap_content" android:layout_height="match_parent"/>
+                <include android:layout_width="0dp" layout="@layout/ongoing_call_chip"/>
+                <com.android.systemui.statusbar.AlphaOptimizedFrameLayout android:orientation="horizontal" android:id="@+id/notification_icon_area" android:visibility="gone" android:clipChildren="false" android:layout_width="0dp" android:layout_height="match_parent"/>
+            </LinearLayout>
+        </FrameLayout>
+        <android.widget.Space android:gravity="center" android:id="@+id/cutout_space_view" android:layout_width="0dp" android:layout_height="match_parent"/>
+        <com.android.keyguard.AlphaOptimizedLinearLayout android:gravity="right|center_vertical|center_horizontal|center|end" android:orientation="horizontal" android:id="@+id/system_icon_area" android:visibility="gone" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1">
+            <com.android.systemui.statusbar.phone.userswitcher.StatusBarUserSwitcherContainer android:gravity="center" android:orientation="horizontal" android:id="@+id/user_switcher_container" android:background="@drawable/status_bar_user_chip_bg" android:paddingTop="4dp" android:paddingBottom="4dp" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingStart="8dp" android:paddingEnd="8dp" android:layout_marginEnd="16dp">
+                <ImageView android:id="@+id/current_user_avatar" android:layout_width="@dimen/multi_user_avatar_keyguard_size" android:layout_height="@dimen/multi_user_avatar_keyguard_size" android:scaleType="centerInside" android:paddingEnd="4dp"/>
+                <TextView android:textAppearance="@style/TextAppearance.StatusBar.Clock" android:id="@+id/current_user_name" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </com.android.systemui.statusbar.phone.userswitcher.StatusBarUserSwitcherContainer>
+            <include layout="@layout/system_icons"/>
+        </com.android.keyguard.AlphaOptimizedLinearLayout>
+    </LinearLayout>
+    <ViewStub android:id="@+id/emergency_cryptkeeper_text" android:layout="@layout/emergency_cryptkeeper_text" android:layout_width="wrap_content" android:layout_height="match_parent"/>
+    <RelativeLayout android:id="@+id/menu_contents" android:layout_width="match_parent" android:layout_height="match_parent" android:paddingStart="0dp" android:paddingEnd="0dp">
+        <ImageButton android:id="@+id/btnHome" android:background="?android:attr/selectableItemBackgroundBorderless" android:layout_width="134px" android:layout_height="match_parent" android:src="@drawable/zxw_home" android:scaleType="center" android:layout_alignParentLeft="true"/>
+        <ImageButton android:id="@+id/btnExit" android:background="?android:attr/selectableItemBackgroundBorderless" android:layout_width="134px" android:layout_height="match_parent" android:src="@drawable/zxw_return" android:scaleType="center" android:layout_alignParentRight="true"/>
+        <ImageButton android:id="@+id/btnTask" android:background="?android:attr/selectableItemBackgroundBorderless" android:layout_width="134px" android:layout_height="match_parent" android:src="@drawable/zxw_task" android:scaleType="center" android:layout_toLeftOf="@+id/btnExit"/>
+        <com.android.systemui.statusbar.policy.Clock android:textAppearance="@style/TextAppearance.StatusBar.myClock" android:gravity="left|center_vertical|center_horizontal|center" android:id="@+id/clock" android:layout_width="wrap_content" android:layout_height="match_parent" android:singleLine="true" android:layout_toRightOf="@+id/btnHome"/>
+    </RelativeLayout>
+    <com.szchoiceway.view.StatusBarView android:id="@+id/statusCustomer" android:paddingTop="0px" android:layout_width="match_parent" android:layout_height="match_parent" android:paddingStart="0dp" android:paddingEnd="0dp"/>
+</com.android.systemui.statusbar.phone.PhoneStatusBarView>

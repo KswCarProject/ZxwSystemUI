@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ConstraintSet xmlns:androidprv="http://schemas.android.com/apk/prv/res/android" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:systemui="http://schemas.android.com/apk/res/com.android.systemui" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/qqs_header_constraint">
+    <Constraint android:id="@+id/clock">
+        <Layout android:layout_width="wrap_content" android:layout_height="0dp" app:layout_constraintBottom_toBottomOf="0" app:layout_constraintEnd_toStartOf="@+id/date" app:layout_constraintHorizontal_bias="0" app:layout_constraintHorizontal_chainStyle="2" app:layout_constraintStart_toStartOf="0" app:layout_constraintTop_toTopOf="0"/>
+    </Constraint>
+    <Constraint android:id="@+id/date">
+        <Layout android:layout_width="wrap_content" android:layout_height="0dp" app:layout_constraintBottom_toBottomOf="0" app:layout_constraintEnd_toStartOf="@+id/carrier_group" app:layout_constraintHorizontal_bias="0" app:layout_constraintStart_toEndOf="@+id/clock" app:layout_constraintTop_toTopOf="0"/>
+    </Constraint>
+    <Constraint android:id="@+id/statusIcons"/>
+    <Constraint android:id="@+id/batteryRemainingIcon"/>
+    <Constraint android:id="@+id/carrier_group">
+        <CustomAttribute app:attributeName="alpha" app:customFloatValue="0"/>
+    </Constraint>
+    <Constraint android:id="@+id/privacy_container">
+        <Layout android:layout_width="wrap_content" android:layout_height="0dp" app:layout_constraintBottom_toBottomOf="@+id/date" app:layout_constraintEnd_toEndOf="0" app:layout_constraintTop_toTopOf="@+id/date"/>
+    </Constraint>
+</ConstraintSet>

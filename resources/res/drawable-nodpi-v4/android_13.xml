@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:androidprv="http://schemas.android.com/apk/prv/res/android" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:aapt="http://schemas.android.com/aapt" android:height="108dp" android:width="108dp" android:viewportWidth="108" android:viewportHeight="108">
+    <path android:pathData="M37,39.03l8.58,0l0,33.94" android:strokeColor="@android:color/keyguard_text_color_soundon" android:strokeWidth="6.2"/>
+    <path android:pathData="M53.98,39.03h11.31l-5.59,11.31c6.02,0.96 10.11,6.62 9.15,12.64c-0.85,5.3 -5.38,9.22 -10.74,9.29c-1.38,-0 -2.76,-0.26 -4.05,-0.75" android:strokeColor="@android:color/keyguard_text_color_soundon" android:strokeWidth="6.2"/>
+    <path android:pathData="M37,39.03l8.58,0l0,33.94" android:strokeColor="@android:color/bright_foreground_light_disabled" android:strokeWidth="1.56"/>
+    <path android:pathData="M53.98,39.03h11.31l-5.59,11.31c6.02,0.96 10.11,6.62 9.15,12.64c-0.85,5.3 -5.38,9.22 -10.74,9.29c-1.38,-0 -2.76,-0.26 -4.05,-0.75" android:strokeColor="@android:color/bright_foreground_light_disabled" android:strokeWidth="1.56"/>
+</vector>

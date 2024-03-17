@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:androidprv="http://schemas.android.com/apk/prv/res/android" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:systemui="http://schemas.android.com/apk/res/com.android.systemui" xmlns:aapt="http://schemas.android.com/aapt">
+    <Transition android:id="@+id/header_transition" app:constraintSetEnd="@+id/qs_header_constraint" app:constraintSetStart="@+id/qqs_header_constraint">
+        <KeyFrameSet>
+            <KeyPosition app:framePosition="49" app:keyPositionType="1" app:motionTarget="@+id/date" app:percentX="0"/>
+            <KeyPosition app:framePosition="51" app:keyPositionType="1" app:motionTarget="@+id/date" app:percentX="1"/>
+            <KeyAttribute android:alpha="0" app:framePosition="50" app:motionTarget="@+id/date"/>
+        </KeyFrameSet>
+    </Transition>
+    <Transition android:id="@+id/large_screen_header_transition" app:constraintSetEnd="@+id/large_screen_header_constraint" app:constraintSetStart="@+id/large_screen_header_constraint"/>
+    <ConstraintSet android:id="@+id/qqs_header_constraint"/>
+    <ConstraintSet android:id="@+id/qs_header_constraint"/>
+    <ConstraintSet android:id="@+id/large_screen_header_constraint"/>
+</MotionScene>

@@ -1,0 +1,50 @@
+package com.android.systemui.media;
+
+import com.android.internal.logging.UiEventLogger;
+
+/* compiled from: MediaUiEventLogger.kt */
+public enum MediaUiEvent implements UiEventLogger.UiEventEnum {
+    LOCAL_MEDIA_ADDED(1029),
+    CAST_MEDIA_ADDED(1030),
+    REMOTE_MEDIA_ADDED(1031),
+    TRANSFER_TO_LOCAL(1032),
+    TRANSFER_TO_CAST(1033),
+    TRANSFER_TO_REMOTE(1034),
+    RESUME_MEDIA_ADDED(1013),
+    ACTIVE_TO_RESUME(1014),
+    MEDIA_TIMEOUT(1015),
+    MEDIA_REMOVED(1016),
+    CAROUSEL_PAGE(1017),
+    DISMISS_SWIPE(1018),
+    OPEN_LONG_PRESS(1019),
+    DISMISS_LONG_PRESS(1020),
+    OPEN_SETTINGS_LONG_PRESS(1021),
+    OPEN_SETTINGS_CAROUSEL(1022),
+    TAP_ACTION_PLAY_PAUSE(1023),
+    TAP_ACTION_PREV(1024),
+    TAP_ACTION_NEXT(1025),
+    TAP_ACTION_OTHER(1026),
+    ACTION_SEEK(1027),
+    OPEN_OUTPUT_SWITCHER(1028),
+    MEDIA_TAP_CONTENT_VIEW(1036),
+    MEDIA_CAROUSEL_LOCATION_QQS(1037),
+    MEDIA_CAROUSEL_LOCATION_QS(1038),
+    MEDIA_CAROUSEL_LOCATION_LOCKSCREEN(1039),
+    MEDIA_CAROUSEL_LOCATION_DREAM(1040),
+    MEDIA_RECOMMENDATION_ADDED(1041),
+    MEDIA_RECOMMENDATION_REMOVED(1042),
+    MEDIA_RECOMMENDATION_ACTIVATED(1043),
+    MEDIA_RECOMMENDATION_ITEM_TAP(1044),
+    MEDIA_RECOMMENDATION_CARD_TAP(1045);
+    
+    private final int metricId;
+
+    /* access modifiers changed from: public */
+    MediaUiEvent(int i) {
+        this.metricId = i;
+    }
+
+    public int getId() {
+        return this.metricId;
+    }
+}

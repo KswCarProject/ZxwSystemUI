@@ -1,0 +1,16 @@
+package com.android.wifitrackerlib;
+
+import com.android.wifitrackerlib.BaseWifiTracker;
+
+/* compiled from: R8$$SyntheticClass */
+public final /* synthetic */ class BaseWifiTracker$$ExternalSyntheticLambda2 implements Runnable {
+    public final /* synthetic */ BaseWifiTracker.BaseWifiTrackerCallback f$0;
+
+    public /* synthetic */ BaseWifiTracker$$ExternalSyntheticLambda2(BaseWifiTracker.BaseWifiTrackerCallback baseWifiTrackerCallback) {
+        this.f$0 = baseWifiTrackerCallback;
+    }
+
+    public final void run() {
+        this.f$0.onWifiStateChanged();
+    }
+}

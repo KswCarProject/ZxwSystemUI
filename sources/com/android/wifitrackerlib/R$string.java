@@ -1,0 +1,47 @@
+package com.android.wifitrackerlib;
+
+public final class R$string {
+    public static final int wifi_connected_low_quality = 2131953541;
+    public static final int wifitrackerlib_admin_restricted_network = 2131953622;
+    public static final int wifitrackerlib_auto_connect_disable = 2131953623;
+    public static final int wifitrackerlib_available_via_app = 2131953624;
+    public static final int wifitrackerlib_connected_via_app = 2131953626;
+    public static final int wifitrackerlib_no_attribution_annotation_packages = 2131953629;
+    public static final int wifitrackerlib_osu_completing_sign_up = 2131953630;
+    public static final int wifitrackerlib_osu_connect_failed = 2131953631;
+    public static final int wifitrackerlib_osu_opening_provider = 2131953632;
+    public static final int wifitrackerlib_osu_sign_up_complete = 2131953633;
+    public static final int wifitrackerlib_osu_sign_up_failed = 2131953634;
+    public static final int wifitrackerlib_private_dns_broken = 2131953635;
+    public static final int wifitrackerlib_saved_network = 2131953636;
+    public static final int wifitrackerlib_summary_separator = 2131953638;
+    public static final int wifitrackerlib_tap_to_renew_subscription_and_connect = 2131953639;
+    public static final int wifitrackerlib_tap_to_sign_up = 2131953640;
+    public static final int wifitrackerlib_wifi_ap_unable_to_handle_new_sta = 2131953641;
+    public static final int wifitrackerlib_wifi_check_password_try_again = 2131953642;
+    public static final int wifitrackerlib_wifi_connected_cannot_provide_internet = 2131953643;
+    public static final int wifitrackerlib_wifi_disabled_generic = 2131953644;
+    public static final int wifitrackerlib_wifi_disabled_network_failure = 2131953645;
+    public static final int wifitrackerlib_wifi_disabled_password_failure = 2131953646;
+    public static final int wifitrackerlib_wifi_disconnected = 2131953647;
+    public static final int wifitrackerlib_wifi_limited_connection = 2131953648;
+    public static final int wifitrackerlib_wifi_mbo_assoc_disallowed_cannot_connect = 2131953649;
+    public static final int wifitrackerlib_wifi_mbo_assoc_disallowed_max_num_sta_associated = 2131953650;
+    public static final int wifitrackerlib_wifi_mbo_oce_assoc_disallowed_insufficient_rssi = 2131953651;
+    public static final int wifitrackerlib_wifi_metered_label = 2131953652;
+    public static final int wifitrackerlib_wifi_network_not_found = 2131953653;
+    public static final int wifitrackerlib_wifi_no_internet = 2131953654;
+    public static final int wifitrackerlib_wifi_no_internet_no_reconnect = 2131953655;
+    public static final int wifitrackerlib_wifi_passpoint_expired = 2131953656;
+    public static final int wifitrackerlib_wifi_poor_channel_conditions = 2131953657;
+    public static final int wifitrackerlib_wifi_remembered = 2131953658;
+    public static final int wifitrackerlib_wifi_standard_11ac = 2131953678;
+    public static final int wifitrackerlib_wifi_standard_11ad = 2131953679;
+    public static final int wifitrackerlib_wifi_standard_11ax = 2131953680;
+    public static final int wifitrackerlib_wifi_standard_11be = 2131953681;
+    public static final int wifitrackerlib_wifi_standard_11n = 2131953682;
+    public static final int wifitrackerlib_wifi_standard_legacy = 2131953683;
+    public static final int wifitrackerlib_wifi_standard_unknown = 2131953684;
+    public static final int wifitrackerlib_wifi_unmetered_label = 2131953685;
+    public static final int wifitrackerlib_wifi_wont_autoconnect_for_now = 2131953686;
+}

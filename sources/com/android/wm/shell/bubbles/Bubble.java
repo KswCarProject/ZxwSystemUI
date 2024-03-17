@@ -1,0 +1,695 @@
+package com.android.wm.shell.bubbles;
+
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.app.Person;
+import android.content.Context;
+import android.content.Intent;
+import android.content.LocusId;
+import android.content.pm.PackageManager;
+import android.content.pm.ShortcutInfo;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Path;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
+import android.os.AsyncTask;
+import android.os.Parcelable;
+import android.os.UserHandle;
+import android.text.TextUtils;
+import android.util.Log;
+import com.android.internal.annotations.VisibleForTesting;
+import com.android.internal.logging.InstanceId;
+import com.android.wm.shell.bubbles.BubbleViewInfoTask;
+import com.android.wm.shell.bubbles.Bubbles;
+import java.io.PrintWriter;
+import java.util.Objects;
+import java.util.concurrent.Executor;
+
+@VisibleForTesting
+public class Bubble implements BubbleViewProvider {
+    public String mAppName;
+    public int mAppUid = -1;
+    public Bitmap mBadgeBitmap;
+    public Bitmap mBubbleBitmap;
+    public Bubbles.BubbleMetadataFlagListener mBubbleMetadataFlagListener;
+    public String mChannelId;
+    public PendingIntent mDeleteIntent;
+    public int mDesiredHeight;
+    public int mDesiredHeightResId;
+    public int mDotColor;
+    public Path mDotPath;
+    public BubbleExpandedView mExpandedView;
+    public int mFlags;
+    public FlyoutMessage mFlyoutMessage;
+    public final String mGroupKey;
+    public Icon mIcon;
+    public BadgedImageView mIconView;
+    public boolean mInflateSynchronously;
+    public BubbleViewInfoTask mInflationTask;
+    public InstanceId mInstanceId;
+    public PendingIntent mIntent;
+    public boolean mIntentActive;
+    public PendingIntent.CancelListener mIntentCancelListener;
+    public boolean mIsBubble;
+    public boolean mIsClearable;
+    public boolean mIsImportantConversation;
+    public boolean mIsTextChanged;
+    public final String mKey;
+    public long mLastAccessed;
+    public long mLastUpdated;
+    public final LocusId mLocusId;
+    public final Executor mMainExecutor;
+    public String mMetadataShortcutId;
+    public int mNotificationId;
+    public String mPackageName;
+    public boolean mPendingIntentCanceled;
+    public Bitmap mRawBadgeBitmap;
+    public ShortcutInfo mShortcutInfo;
+    public boolean mShouldSuppressNotificationDot;
+    public boolean mShouldSuppressNotificationList;
+    public boolean mShouldSuppressPeek;
+    public boolean mShowBubbleUpdateDot = true;
+    public boolean mSuppressFlyout;
+    public int mTaskId;
+    public String mTitle;
+    public UserHandle mUser;
+
+    public static class FlyoutMessage {
+        public boolean isGroupChat;
+        public CharSequence message;
+        public Drawable senderAvatar;
+        public Icon senderIcon;
+        public CharSequence senderName;
+    }
+
+    @VisibleForTesting(visibility = VisibleForTesting.Visibility.PRIVATE)
+    public Bubble(String str, ShortcutInfo shortcutInfo, int i, int i2, String str2, int i3, String str3, Executor executor) {
+        Objects.requireNonNull(str);
+        Objects.requireNonNull(shortcutInfo);
+        this.mMetadataShortcutId = shortcutInfo.getId();
+        this.mShortcutInfo = shortcutInfo;
+        this.mKey = str;
+        LocusId locusId = null;
+        this.mGroupKey = null;
+        this.mLocusId = str3 != null ? new LocusId(str3) : locusId;
+        this.mFlags = 0;
+        this.mUser = shortcutInfo.getUserHandle();
+        this.mPackageName = shortcutInfo.getPackage();
+        this.mIcon = shortcutInfo.getIcon();
+        this.mDesiredHeight = i;
+        this.mDesiredHeightResId = i2;
+        this.mTitle = str2;
+        this.mShowBubbleUpdateDot = false;
+        this.mMainExecutor = executor;
+        this.mTaskId = i3;
+    }
+
+    @VisibleForTesting(visibility = VisibleForTesting.Visibility.PRIVATE)
+    public Bubble(BubbleEntry bubbleEntry, Bubbles.BubbleMetadataFlagListener bubbleMetadataFlagListener, Bubbles.PendingIntentCanceledListener pendingIntentCanceledListener, Executor executor) {
+        this.mKey = bubbleEntry.getKey();
+        this.mGroupKey = bubbleEntry.getGroupKey();
+        this.mLocusId = bubbleEntry.getLocusId();
+        this.mBubbleMetadataFlagListener = bubbleMetadataFlagListener;
+        this.mIntentCancelListener = new Bubble$$ExternalSyntheticLambda0(this, executor, pendingIntentCanceledListener);
+        this.mMainExecutor = executor;
+        this.mTaskId = -1;
+        setEntry(bubbleEntry);
+    }
+
+    /* access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$1(Executor executor, Bubbles.PendingIntentCanceledListener pendingIntentCanceledListener, PendingIntent pendingIntent) {
+        PendingIntent pendingIntent2 = this.mIntent;
+        if (pendingIntent2 != null) {
+            pendingIntent2.unregisterCancelListener(this.mIntentCancelListener);
+        }
+        executor.execute(new Bubble$$ExternalSyntheticLambda1(this, pendingIntentCanceledListener));
+    }
+
+    /* access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$0(Bubbles.PendingIntentCanceledListener pendingIntentCanceledListener) {
+        pendingIntentCanceledListener.onPendingIntentCanceled(this);
+    }
+
+    public String getKey() {
+        return this.mKey;
+    }
+
+    public String getGroupKey() {
+        return this.mGroupKey;
+    }
+
+    public LocusId getLocusId() {
+        return this.mLocusId;
+    }
+
+    public UserHandle getUser() {
+        return this.mUser;
+    }
+
+    public String getPackageName() {
+        return this.mPackageName;
+    }
+
+    public Bitmap getBubbleIcon() {
+        return this.mBubbleBitmap;
+    }
+
+    public Bitmap getAppBadge() {
+        return this.mBadgeBitmap;
+    }
+
+    public Bitmap getRawAppBadge() {
+        return this.mRawBadgeBitmap;
+    }
+
+    public int getDotColor() {
+        return this.mDotColor;
+    }
+
+    public Path getDotPath() {
+        return this.mDotPath;
+    }
+
+    public String getAppName() {
+        return this.mAppName;
+    }
+
+    public ShortcutInfo getShortcutInfo() {
+        return this.mShortcutInfo;
+    }
+
+    public BadgedImageView getIconView() {
+        return this.mIconView;
+    }
+
+    public BubbleExpandedView getExpandedView() {
+        return this.mExpandedView;
+    }
+
+    public String getTitle() {
+        return this.mTitle;
+    }
+
+    public String getShortcutId() {
+        if (getShortcutInfo() != null) {
+            return getShortcutInfo().getId();
+        }
+        return getMetadataShortcutId();
+    }
+
+    public String getMetadataShortcutId() {
+        return this.mMetadataShortcutId;
+    }
+
+    public boolean hasMetadataShortcutId() {
+        String str = this.mMetadataShortcutId;
+        return str != null && !str.isEmpty();
+    }
+
+    public void cleanupExpandedView() {
+        BubbleExpandedView bubbleExpandedView = this.mExpandedView;
+        if (bubbleExpandedView != null) {
+            bubbleExpandedView.cleanUpExpandedState();
+            this.mExpandedView = null;
+        }
+        PendingIntent pendingIntent = this.mIntent;
+        if (pendingIntent != null) {
+            pendingIntent.unregisterCancelListener(this.mIntentCancelListener);
+        }
+        this.mIntentActive = false;
+    }
+
+    public void cleanupViews() {
+        cleanupExpandedView();
+        this.mIconView = null;
+    }
+
+    public void setPendingIntentCanceled() {
+        this.mPendingIntentCanceled = true;
+    }
+
+    public boolean getPendingIntentCanceled() {
+        return this.mPendingIntentCanceled;
+    }
+
+    @VisibleForTesting
+    public void setInflateSynchronously(boolean z) {
+        this.mInflateSynchronously = z;
+    }
+
+    @VisibleForTesting
+    public void setTextChangedForTest(boolean z) {
+        this.mIsTextChanged = z;
+    }
+
+    public void inflate(BubbleViewInfoTask.Callback callback, Context context, BubbleController bubbleController, BubbleStackView bubbleStackView, BubbleIconFactory bubbleIconFactory, BubbleBadgeIconFactory bubbleBadgeIconFactory, boolean z) {
+        if (isBubbleLoading()) {
+            this.mInflationTask.cancel(true);
+        }
+        BubbleViewInfoTask bubbleViewInfoTask = new BubbleViewInfoTask(this, context, bubbleController, bubbleStackView, bubbleIconFactory, bubbleBadgeIconFactory, z, callback, this.mMainExecutor);
+        this.mInflationTask = bubbleViewInfoTask;
+        if (this.mInflateSynchronously) {
+            bubbleViewInfoTask.onPostExecute(bubbleViewInfoTask.doInBackground(new Void[0]));
+        } else {
+            bubbleViewInfoTask.execute(new Void[0]);
+        }
+    }
+
+    public final boolean isBubbleLoading() {
+        BubbleViewInfoTask bubbleViewInfoTask = this.mInflationTask;
+        return (bubbleViewInfoTask == null || bubbleViewInfoTask.getStatus() == AsyncTask.Status.FINISHED) ? false : true;
+    }
+
+    public boolean isInflated() {
+        return (this.mIconView == null || this.mExpandedView == null) ? false : true;
+    }
+
+    public void stopInflation() {
+        BubbleViewInfoTask bubbleViewInfoTask = this.mInflationTask;
+        if (bubbleViewInfoTask != null) {
+            bubbleViewInfoTask.cancel(true);
+        }
+    }
+
+    public void setViewInfo(BubbleViewInfoTask.BubbleViewInfo bubbleViewInfo) {
+        if (!isInflated()) {
+            this.mIconView = bubbleViewInfo.imageView;
+            this.mExpandedView = bubbleViewInfo.expandedView;
+        }
+        this.mShortcutInfo = bubbleViewInfo.shortcutInfo;
+        this.mAppName = bubbleViewInfo.appName;
+        this.mFlyoutMessage = bubbleViewInfo.flyoutMessage;
+        this.mBadgeBitmap = bubbleViewInfo.badgeBitmap;
+        this.mRawBadgeBitmap = bubbleViewInfo.mRawBadgeBitmap;
+        this.mBubbleBitmap = bubbleViewInfo.bubbleBitmap;
+        this.mDotColor = bubbleViewInfo.dotColor;
+        this.mDotPath = bubbleViewInfo.dotPath;
+        BubbleExpandedView bubbleExpandedView = this.mExpandedView;
+        if (bubbleExpandedView != null) {
+            bubbleExpandedView.update(this);
+        }
+        BadgedImageView badgedImageView = this.mIconView;
+        if (badgedImageView != null) {
+            badgedImageView.setRenderedBubble(this);
+        }
+    }
+
+    public void setTaskViewVisibility(boolean z) {
+        BubbleExpandedView bubbleExpandedView = this.mExpandedView;
+        if (bubbleExpandedView != null) {
+            bubbleExpandedView.setContentVisibility(z);
+        }
+    }
+
+    public void setEntry(BubbleEntry bubbleEntry) {
+        PendingIntent pendingIntent;
+        Objects.requireNonNull(bubbleEntry);
+        this.mLastUpdated = bubbleEntry.getStatusBarNotification().getPostTime();
+        this.mIsBubble = bubbleEntry.getStatusBarNotification().getNotification().isBubbleNotification();
+        this.mPackageName = bubbleEntry.getStatusBarNotification().getPackageName();
+        this.mUser = bubbleEntry.getStatusBarNotification().getUser();
+        this.mTitle = getTitle(bubbleEntry);
+        this.mChannelId = bubbleEntry.getStatusBarNotification().getNotification().getChannelId();
+        this.mNotificationId = bubbleEntry.getStatusBarNotification().getId();
+        this.mAppUid = bubbleEntry.getStatusBarNotification().getUid();
+        this.mInstanceId = bubbleEntry.getStatusBarNotification().getInstanceId();
+        this.mFlyoutMessage = extractFlyoutMessage(bubbleEntry);
+        if (bubbleEntry.getRanking() != null) {
+            this.mShortcutInfo = bubbleEntry.getRanking().getConversationShortcutInfo();
+            this.mIsTextChanged = bubbleEntry.getRanking().isTextChanged();
+            if (bubbleEntry.getRanking().getChannel() != null) {
+                this.mIsImportantConversation = bubbleEntry.getRanking().getChannel().isImportantConversation();
+            }
+        }
+        if (bubbleEntry.getBubbleMetadata() != null) {
+            this.mMetadataShortcutId = bubbleEntry.getBubbleMetadata().getShortcutId();
+            this.mFlags = bubbleEntry.getBubbleMetadata().getFlags();
+            this.mDesiredHeight = bubbleEntry.getBubbleMetadata().getDesiredHeight();
+            this.mDesiredHeightResId = bubbleEntry.getBubbleMetadata().getDesiredHeightResId();
+            this.mIcon = bubbleEntry.getBubbleMetadata().getIcon();
+            if (!this.mIntentActive || (pendingIntent = this.mIntent) == null) {
+                PendingIntent pendingIntent2 = this.mIntent;
+                if (pendingIntent2 != null) {
+                    pendingIntent2.unregisterCancelListener(this.mIntentCancelListener);
+                }
+                PendingIntent intent = bubbleEntry.getBubbleMetadata().getIntent();
+                this.mIntent = intent;
+                if (intent != null) {
+                    intent.registerCancelListener(this.mIntentCancelListener);
+                }
+            } else if (pendingIntent != null && bubbleEntry.getBubbleMetadata().getIntent() == null) {
+                this.mIntent.unregisterCancelListener(this.mIntentCancelListener);
+                this.mIntentActive = false;
+                this.mIntent = null;
+            }
+            this.mDeleteIntent = bubbleEntry.getBubbleMetadata().getDeleteIntent();
+        }
+        this.mIsClearable = bubbleEntry.isClearable();
+        this.mShouldSuppressNotificationDot = bubbleEntry.shouldSuppressNotificationDot();
+        this.mShouldSuppressNotificationList = bubbleEntry.shouldSuppressNotificationList();
+        this.mShouldSuppressPeek = bubbleEntry.shouldSuppressPeek();
+    }
+
+    public Icon getIcon() {
+        return this.mIcon;
+    }
+
+    public boolean isTextChanged() {
+        return this.mIsTextChanged;
+    }
+
+    public long getLastActivity() {
+        return Math.max(this.mLastUpdated, this.mLastAccessed);
+    }
+
+    public void setIntentActive() {
+        this.mIntentActive = true;
+    }
+
+    public boolean isIntentActive() {
+        return this.mIntentActive;
+    }
+
+    public InstanceId getInstanceId() {
+        return this.mInstanceId;
+    }
+
+    public String getChannelId() {
+        return this.mChannelId;
+    }
+
+    public int getNotificationId() {
+        return this.mNotificationId;
+    }
+
+    public int getTaskId() {
+        BubbleExpandedView bubbleExpandedView = this.mExpandedView;
+        return bubbleExpandedView != null ? bubbleExpandedView.getTaskId() : this.mTaskId;
+    }
+
+    public void markAsAccessedAt(long j) {
+        this.mLastAccessed = j;
+        setSuppressNotification(true);
+        setShowDot(false);
+    }
+
+    public void markUpdatedAt(long j) {
+        this.mLastUpdated = j;
+    }
+
+    public boolean showInShade() {
+        return !shouldSuppressNotification() || !this.mIsClearable;
+    }
+
+    public boolean isSuppressed() {
+        return (this.mFlags & 8) != 0;
+    }
+
+    public boolean isSuppressable() {
+        return (this.mFlags & 4) != 0;
+    }
+
+    public boolean isImportantConversation() {
+        return this.mIsImportantConversation;
+    }
+
+    @VisibleForTesting
+    public void setSuppressNotification(boolean z) {
+        Bubbles.BubbleMetadataFlagListener bubbleMetadataFlagListener;
+        boolean showInShade = showInShade();
+        if (z) {
+            this.mFlags |= 2;
+        } else {
+            this.mFlags &= -3;
+        }
+        if (showInShade() != showInShade && (bubbleMetadataFlagListener = this.mBubbleMetadataFlagListener) != null) {
+            bubbleMetadataFlagListener.onBubbleMetadataFlagChanged(this);
+        }
+    }
+
+    public void setSuppressBubble(boolean z) {
+        Bubbles.BubbleMetadataFlagListener bubbleMetadataFlagListener;
+        if (!isSuppressable()) {
+            Log.e("Bubble", "calling setSuppressBubble on " + getKey() + " when bubble not suppressable");
+            return;
+        }
+        boolean isSuppressed = isSuppressed();
+        if (z) {
+            this.mFlags |= 8;
+        } else {
+            this.mFlags &= -9;
+        }
+        if (isSuppressed != z && (bubbleMetadataFlagListener = this.mBubbleMetadataFlagListener) != null) {
+            bubbleMetadataFlagListener.onBubbleMetadataFlagChanged(this);
+        }
+    }
+
+    public void setShowDot(boolean z) {
+        this.mShowBubbleUpdateDot = z;
+        BadgedImageView badgedImageView = this.mIconView;
+        if (badgedImageView != null) {
+            badgedImageView.updateDotVisibility(true);
+        }
+    }
+
+    public boolean showDot() {
+        return this.mShowBubbleUpdateDot && !this.mShouldSuppressNotificationDot && !shouldSuppressNotification();
+    }
+
+    @VisibleForTesting
+    public boolean showFlyout() {
+        return !this.mSuppressFlyout && !this.mShouldSuppressPeek && !shouldSuppressNotification() && !this.mShouldSuppressNotificationList;
+    }
+
+    public void setSuppressFlyout(boolean z) {
+        this.mSuppressFlyout = z;
+    }
+
+    public FlyoutMessage getFlyoutMessage() {
+        return this.mFlyoutMessage;
+    }
+
+    public int getRawDesiredHeight() {
+        return this.mDesiredHeight;
+    }
+
+    public int getRawDesiredHeightResId() {
+        return this.mDesiredHeightResId;
+    }
+
+    public float getDesiredHeight(Context context) {
+        int i = this.mDesiredHeightResId;
+        if (i != 0) {
+            return (float) getDimenForPackageUser(context, i, this.mPackageName, this.mUser.getIdentifier());
+        }
+        return ((float) this.mDesiredHeight) * context.getResources().getDisplayMetrics().density;
+    }
+
+    public String getDesiredHeightString() {
+        int i = this.mDesiredHeightResId;
+        if (i != 0) {
+            return String.valueOf(i);
+        }
+        return String.valueOf(this.mDesiredHeight);
+    }
+
+    public PendingIntent getBubbleIntent() {
+        return this.mIntent;
+    }
+
+    public PendingIntent getDeleteIntent() {
+        return this.mDeleteIntent;
+    }
+
+    public Intent getSettingsIntent(Context context) {
+        Intent intent = new Intent("android.settings.APP_NOTIFICATION_BUBBLE_SETTINGS");
+        intent.putExtra("android.provider.extra.APP_PACKAGE", getPackageName());
+        int uid = getUid(context);
+        if (uid != -1) {
+            intent.putExtra("app_uid", uid);
+        }
+        intent.addFlags(134217728);
+        intent.addFlags(268435456);
+        intent.addFlags(536870912);
+        return intent;
+    }
+
+    public int getAppUid() {
+        return this.mAppUid;
+    }
+
+    public final int getUid(Context context) {
+        int i = this.mAppUid;
+        if (i != -1) {
+            return i;
+        }
+        PackageManager packageManagerForUser = BubbleController.getPackageManagerForUser(context, this.mUser.getIdentifier());
+        if (packageManagerForUser == null) {
+            return -1;
+        }
+        try {
+            return packageManagerForUser.getApplicationInfo(this.mShortcutInfo.getPackage(), 0).uid;
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e("Bubble", "cannot find uid", e);
+            return -1;
+        }
+    }
+
+    public final int getDimenForPackageUser(Context context, int i, String str, int i2) {
+        if (str != null) {
+            if (i2 == -1) {
+                i2 = 0;
+            }
+            try {
+                return context.createContextAsUser(UserHandle.of(i2), 0).getPackageManager().getResourcesForApplication(str).getDimensionPixelSize(i);
+            } catch (PackageManager.NameNotFoundException unused) {
+            } catch (Resources.NotFoundException e) {
+                Log.e("Bubble", "Couldn't find desired height res id", e);
+            }
+        }
+        return 0;
+    }
+
+    public final boolean shouldSuppressNotification() {
+        return isEnabled(2);
+    }
+
+    public boolean shouldAutoExpand() {
+        return isEnabled(1);
+    }
+
+    @VisibleForTesting
+    public void setShouldAutoExpand(boolean z) {
+        Bubbles.BubbleMetadataFlagListener bubbleMetadataFlagListener;
+        boolean shouldAutoExpand = shouldAutoExpand();
+        if (z) {
+            enable(1);
+        } else {
+            disable(1);
+        }
+        if (shouldAutoExpand != z && (bubbleMetadataFlagListener = this.mBubbleMetadataFlagListener) != null) {
+            bubbleMetadataFlagListener.onBubbleMetadataFlagChanged(this);
+        }
+    }
+
+    public void setIsBubble(boolean z) {
+        this.mIsBubble = z;
+    }
+
+    public boolean isBubble() {
+        return this.mIsBubble;
+    }
+
+    public void enable(int i) {
+        this.mFlags = i | this.mFlags;
+    }
+
+    public void disable(int i) {
+        this.mFlags = (~i) & this.mFlags;
+    }
+
+    public boolean isEnabled(int i) {
+        return (this.mFlags & i) != 0;
+    }
+
+    public int getFlags() {
+        return this.mFlags;
+    }
+
+    public String toString() {
+        return "Bubble{" + this.mKey + '}';
+    }
+
+    public void dump(PrintWriter printWriter, String[] strArr) {
+        printWriter.print("key: ");
+        printWriter.println(this.mKey);
+        printWriter.print("  showInShade:   ");
+        printWriter.println(showInShade());
+        printWriter.print("  showDot:       ");
+        printWriter.println(showDot());
+        printWriter.print("  showFlyout:    ");
+        printWriter.println(showFlyout());
+        printWriter.print("  lastActivity:  ");
+        printWriter.println(getLastActivity());
+        printWriter.print("  desiredHeight: ");
+        printWriter.println(getDesiredHeightString());
+        printWriter.print("  suppressNotif: ");
+        printWriter.println(shouldSuppressNotification());
+        printWriter.print("  autoExpand:    ");
+        printWriter.println(shouldAutoExpand());
+        BubbleExpandedView bubbleExpandedView = this.mExpandedView;
+        if (bubbleExpandedView != null) {
+            bubbleExpandedView.dump(printWriter, strArr);
+        }
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Bubble)) {
+            return false;
+        }
+        return Objects.equals(this.mKey, ((Bubble) obj).mKey);
+    }
+
+    public int hashCode() {
+        return Objects.hash(new Object[]{this.mKey});
+    }
+
+    public static String getTitle(BubbleEntry bubbleEntry) {
+        CharSequence charSequence = bubbleEntry.getStatusBarNotification().getNotification().extras.getCharSequence("android.title");
+        if (charSequence == null) {
+            return null;
+        }
+        return charSequence.toString();
+    }
+
+    public static FlyoutMessage extractFlyoutMessage(BubbleEntry bubbleEntry) {
+        Objects.requireNonNull(bubbleEntry);
+        Notification notification = bubbleEntry.getStatusBarNotification().getNotification();
+        Class notificationStyle = notification.getNotificationStyle();
+        FlyoutMessage flyoutMessage = new FlyoutMessage();
+        flyoutMessage.isGroupChat = notification.extras.getBoolean("android.isGroupConversation");
+        try {
+            if (Notification.BigTextStyle.class.equals(notificationStyle)) {
+                CharSequence charSequence = notification.extras.getCharSequence("android.bigText");
+                if (TextUtils.isEmpty(charSequence)) {
+                    charSequence = notification.extras.getCharSequence("android.text");
+                }
+                flyoutMessage.message = charSequence;
+                return flyoutMessage;
+            }
+            if (Notification.MessagingStyle.class.equals(notificationStyle)) {
+                Notification.MessagingStyle.Message findLatestIncomingMessage = Notification.MessagingStyle.findLatestIncomingMessage(Notification.MessagingStyle.Message.getMessagesFromBundleArray((Parcelable[]) notification.extras.get("android.messages")));
+                if (findLatestIncomingMessage != null) {
+                    flyoutMessage.message = findLatestIncomingMessage.getText();
+                    Person senderPerson = findLatestIncomingMessage.getSenderPerson();
+                    Icon icon = null;
+                    flyoutMessage.senderName = senderPerson != null ? senderPerson.getName() : null;
+                    flyoutMessage.senderAvatar = null;
+                    if (senderPerson != null) {
+                        icon = senderPerson.getIcon();
+                    }
+                    flyoutMessage.senderIcon = icon;
+                    return flyoutMessage;
+                }
+            } else if (Notification.InboxStyle.class.equals(notificationStyle)) {
+                CharSequence[] charSequenceArray = notification.extras.getCharSequenceArray("android.textLines");
+                if (charSequenceArray != null && charSequenceArray.length > 0) {
+                    flyoutMessage.message = charSequenceArray[charSequenceArray.length - 1];
+                    return flyoutMessage;
+                }
+            } else if (Notification.MediaStyle.class.equals(notificationStyle)) {
+                return flyoutMessage;
+            } else {
+                flyoutMessage.message = notification.extras.getCharSequence("android.text");
+                return flyoutMessage;
+            }
+            return flyoutMessage;
+        } catch (ArrayIndexOutOfBoundsException | ClassCastException | NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+}
